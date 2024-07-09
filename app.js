@@ -27,8 +27,8 @@ const initializeDbAndServer = async () => {
 
 initializeDbAndServer();
 
-app.get("/airport/", async (request, response) => {
-  const { iata_code } = request.query;
+app.get("/airport/:iata_code/", async (request, response) => {
+  const { iata_code } = request.params;
 
   const toGetAirportDataQuery = `SELECT * FROM airport WHERE iata_code LIKE '${iata_code}';`;
   const toGetCityData = `SELECT city.id,city.name,city.country_id,city.is_active,city.lat,city.long FROM airport INNER JOIN city ON airport.city_id=city.id WHERE airport.iata_code LIKE '${iata_code}';`;
