@@ -39,48 +39,38 @@ app.get("/airport/", async (request, response) => {
   let cityData;
   let countryData;
 
-  if (cityDataResponse === undefined) {
-    cityData = null;
+  if (airportData === undefined) {
+    response.send(`No Airport With The Code "${iata_code}"`);
   } else {
-    cityData = {
-      id: cityDataResponse.id,
-      name: cityDataResponse.name,
-      country_id: cityDataResponse.country_id,
-      is_active: cityDataResponse.is_active,
-      lat: cityDataResponse.lat,
-      long: cityDataResponse.long,
-    };
-  }
+    if (cityDataResponse === undefined) {
+      cityData = null;
+    } else {
+      cityData = cityDataResponse;
+    }
 
-  if (countryDataResponse === undefined) {
-    countryData = null;
-  } else {
-    countryData = {
-      id: countryDataResponse.id,
-      name: countryDataResponse.name,
-      country_code_two: countryDataResponse.country_code_two,
-      country_code_three: countryDataResponse.country_code_three,
-      mobile_code: countryDataResponse.mobile_code,
-      continent_id: countryDataResponse.continent_id,
-    };
-  }
+    if (countryDataResponse === undefined) {
+      countryData = null;
+    } else {
+      countryData = countryDataResponse;
+    }
 
-  result = {
-    airport: {
-      id: airportData.id,
-      icao_code: airportData.icao_code,
-      iata_code: airportData.iata_code,
-      name: airportData.name,
-      type: airportData.type,
-      latitude_deg: airportData.latitude_deg,
-      longitude_deg: airportData.longitude_deg,
-      elevation_ft: airportData.elevation_ft,
-      address: {
-        city: cityData,
-        country: countryData,
+    result = {
+      airport: {
+        id: airportData.id,
+        icao_code: airportData.icao_code,
+        iata_code: airportData.iata_code,
+        name: airportData.name,
+        type: airportData.type,
+        latitude_deg: airportData.latitude_deg,
+        longitude_deg: airportData.longitude_deg,
+        elevation_ft: airportData.elevation_ft,
+        address: {
+          city: cityData,
+          country: countryData,
+        },
       },
-    },
-  };
+    };
 
-  response.send(result);
+    response.send(result);
+  }
 });
